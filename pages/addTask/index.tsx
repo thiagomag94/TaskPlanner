@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { useState, useContext } from "react"
 import Image from 'next/image'
 import { Html } from 'next/document'
 import Link from 'next/link'
@@ -6,8 +7,16 @@ import Tasks from '../../components/tasks'
 import MainContainer from '../../components/maincontainer'
 import Header from '../../components/header'
 import Form from '../../components/form'
+import { ContextData } from '../../contexts/TaskContext'
+
 
 export default function AddTask () {
+
+  const [titleTask, setTitleTask] = useState('')
+  const [description, setDescription] = useState('')
+  const [dateEnd, setDateEnd] = useState('')
+
+  
 
     return(
     
@@ -21,12 +30,7 @@ export default function AddTask () {
       <main className="w-full relative flex flex-col font-Roboto min-h-screen justify-start items-center   z-50 absolute  top-0">
          <Header text = "ADD TASK"/>
          <Image src="/images/task-logo.png" alt="logo" width={100} height={100} className="absolute top-32"/>
-         <Form/>
-          
-          
-          
-            
-              
+         <Form titleTask = {titleTask} setTitleTask = {setTitleTask} description = {description} setDescription={setDescription} dateEnd = {dateEnd} setDateEnd = {setDateEnd}/>        
       </main>
     </>
 

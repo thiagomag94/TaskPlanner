@@ -4,6 +4,7 @@ export interface TaskPropsType {
     onDeletetask: () => void,
     taskname: string,
     colorBg: any,
-    status: boolean
+    status: boolean,
+    description:string
    
 }
