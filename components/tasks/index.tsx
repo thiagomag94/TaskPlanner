@@ -1,4 +1,4 @@
-import { useState, ReactElement } from "react"
+import { useState, ReactElement,useContext, useEffect } from "react"
 import { TaskPropsType } from "./type";
 import DeleteIcon from '@mui/icons-material/Delete';
 import InfoIcon from '@mui/icons-material/Info';
@@ -7,6 +7,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import EditIcon from '@mui/icons-material/Edit';
+import { ContextData } from "../../contexts/TaskContext";
 
 
 
@@ -16,19 +17,48 @@ const Tasks = (props: TaskPropsType) => {
 
     const {onDeletetask, taskname, colorBg, status, description} = props
     const [visibility, setVisibility] = useState<boolean>(false)
+    const [ListTasks, setListTasks, countTasks, setCountTasks] = useContext<any>(ContextData)
     
+    useEffect(()=>{
+       
+        console.log(ListTasks)
+    },[ListTasks]
 
+    )
     const handleExpandTask = () => {
         visibility === false ? setVisibility(true) : setVisibility(false)
         console.log('expand true')
 
     }
+
+    const handleUpdate = () => {
+            const updatedArray = ListTasks.map(item => {
+              if (item.todo === taskname) {
+                if(item.completed === true){
+                    return { ...item, ...{completed:false}};
+                }
+                else if(item.completed === false){
+                    
+                    return { ...item, ...{completed:true}};
+                }
+
+                
+              }
+              return item;
+            });
+            console.log(updatedArray)
+            setListTasks(updatedArray);
+
+          }
+        
+    
+
     return(
         <div id="content" className={`w-11/12 min-h-4 flex flex-col gap gap-2 items-center  ${colorBg} rounded-sm mb-1 relative p-2 lg:w-2/5`}>
            
             <div id="div-comment " className="w-full flex items-center">
                 <div className="w-10 h-full flex items-center">
-                    <input type="checkbox" name="marcado" id="check01" className=" w-4 h-4  border-2 border-pblue appearance-none checked:bg-pgreen checked:appearance " />
+                    <input type="checkbox" name="marcado" id="check01" className=" w-4 h-4  border-2 border-pblue rounded-full appearance-none checked:bg-pgreen checked:appearance " onClick={handleUpdate}/>
                 </div>
                 <p className="flex items-center w-full text-md text-white font-normal h-full overflow-x-hidden">
                     {status === false ? <ErrorIcon className="text-red-500 mr-2"></ErrorIcon>
